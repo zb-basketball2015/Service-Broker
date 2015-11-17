@@ -1,0 +1,2 @@
+1. 用户验证是否是在list_service()里面实现？
+2. 写了list_services(),能举个例子如何调用service_market的api吗？
