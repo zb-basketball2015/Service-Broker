@@ -1,8 +1,8 @@
 # Service_Broker
 
 
-#    CF  <--------->  service_broker  <----------->  service_market  <---------------->  openstack
-#   paas                                                                                   iaas
+#    CF(Paas)  <--------->  service_broker  <----------->  service_market  <---------------->  openstack(Iaas)
+#   
 #
 #
 #
