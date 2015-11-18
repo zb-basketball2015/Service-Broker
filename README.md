@@ -1,10 +1,4 @@
-# Service_Broker
+Cloud Foundry Service Broker
+====
 
-
-#    CF(Paas)  <--------->  service_broker  <----------->  service_market  <---------------->  openstack(Iaas)
-#   
-#
-#
-#
-#
-#
+A service broker for service marketplace
