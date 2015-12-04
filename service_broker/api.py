@@ -1,7 +1,5 @@
 from flask import Flask
-import urllib, httplib
-import json
-
+from service_broker.http_client import host, port, username, password, do_request
 ##############
 
 app = Flask('service-broker')
@@ -10,87 +8,156 @@ token = None
 
 @app.route('/v2/catalog')
 def list_services():
+
     global token
-    username = 'admin'
-    password = 'dangerous'
-    params = None
-    http_client = None
+
     headers = {
-        "username": username,
-        "password": password
+        'username':username,
+        'password':password
     }
+
+    url = 'http://' + host + port + ':' + '/services'
+
     try:
-        http_client = httplib.HTTPConnection()
-        http_client.request('get', '/services', params, headers)
-        response = http_client.getresponse().read()
-        results = json.loads(response)
-        token = results['token_expiration'].encode('utf-8')
+        result, status_code = do_request('get', url, None, headers, None)
+        token = result['token_expiration'].encode('utf-8')
     except Exception, e:
         print e
-    finally:
-        if http_client:
-            http_client.close()
+
+    # params = None
+    # http_client = None
+    # try:
+    #     http_client = httplib.HTTPConnection()
+    #     http_client.request('get', '/services', params, )
+    #     response = http_client.getresponse().read()
+    #     results = json.loads(response)
+    #     token = results['token_expiration'].encode('utf-8')
+    # except Exception, e:
+    #     print e
+    # finally:
+    #     if http_client:
+    #         http_client.close()
     pass
 
 @app.route('/v2/service_instances/<instance_id>', methods=['PUT'])
-def provision_instance(instance_id):
+def provision_instance():
+
     global token
-    http_client = None
+
     headers = {
-        "token": token,
-        "instance_id": instance_id
+        'username':username,
+        'password':password,
+        'token': token
     }
 
+    url = 'http://' + host + port + ':' + '/instances'
+
+    try:
+        result, status_code = do_request('post', url, None, headers, None)
+    except Exception, e:
+        print e
     pass
 
 @app.route('/v2/service_instances/<instance_id>', methods=['PATCH'])
-def update_instance(instance_id):
+def update_instance():
+
     global token
-    http_client = None
+
     headers = {
-        "token": token,
-        "instance_id": instance_id
+        "name": "update",
+        "parameters": {
+            'username':username,
+            'password':password,
+            'token': token
+        }
     }
+
+    url = 'http://' + host + port + ':' + '/instances/<instance_id>/update'
+
+    try:
+        result, status_code = do_request('post', url, None, headers, None)
+    except Exception, e:
+        print e
     pass
 
 @app.route('/v2/service_instances/<instance_id>/service_bindings/<binding_id>', methods=['PUT'])
-def bind_instance(instance_id, binding_id):
+def bind_instance():
+
     global token
-    http_client = None
+
     headers = {
-        "token": token,
-        "instance_id": instance_id,
-        "binding_id": binding_id
+        "name": "bind",
+        "parameters": {
+            'username':username,
+            'password':password,
+            'token': token
+        }
     }
+
+    url = 'http://' + host + port + ':' + '/instances/<instance_id>/bind'
+
+    try:
+        result, status_code = do_request('post', url, None, headers, None)
+    except Exception, e:
+        print e
     pass
 
 @app.route('/v2/service_instances/<instance_id>/service_bindings/<binding_id>', methods=['DELETE'])
-def unbind_instance(instance_id, binding_id):
+def unbind_instance():
+
     global token
-    http_client = None
+
     headers = {
-        "token": token,
-        "instance_id": instance_id,
-        "binding_id": binding_id
+        "name": "unbind",
+        "parameters": {
+            'username':username,
+            'password':password,
+            'token': token
+        }
     }
+
+    url = 'http://' + host + port + ':' + '/instances/<instance_id>/unbind'
+
+    try:
+        result, status_code = do_request('post', url, None, headers, None)
+    except Exception, e:
+        print e
     pass
 
 @app.route('/v2/service_instances/<instance_id>', methods=['DELETE'])
-def deprovision_instance(instance_id):
+def deprovision_instance():
+
     global token
-    http_client = None
+
     headers = {
-        "token": token,
-        "instance_id": instance_id
+        'username':username,
+        'password':password,
+        'token': token
     }
+
+    url = 'http://' + host + port + ':' + '/instances/<instance_id>'
+
+    try:
+        result, status_code = do_request('delete', url, None, headers, None)
+    except Exception, e:
+        print e
     pass
 
 @app.route('/v2/service_instances/<instance_id>/last_operation')
-def get_last_operation(instance_id):
+def get_last_operation():
+
     global token
-    http_client = None
+
     headers = {
-        "token": token,
-        "instance_id": instance_id
+        'username':username,
+        'password':password,
+        'token': token
     }
+
+    url = 'http://' + host + port + ':' + '/instances/<instance_id>/actions'
+
+    try:
+        result, status_code = do_request('post', url, None, headers, None)
+    except Exception, e:
+        print e
     pass

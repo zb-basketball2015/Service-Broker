@@ -1,4 +1,14 @@
 1. 用户验证是否是在list_service()里面实现？
 2. 写了list_services(),我知道实现的list_service（）不太对，
    能举个例子如何调用service_market的api吗？
-3. 
+
+3. broker中的api接口调用market中的接口：
+     service-broker                                                     service-market
+                                       ????????
+  1 list_services()      ------------------------------->    GET /services
+  2 provision_instance()    ------------------------------->   POST /instances
+  3 update_instance()   ------------------------------->    POST /instances/<instance_id>/update
+  4 deprovision_instance()    ------------------------------->   DELETE /instances/<instance_id>
+  5 bind_instance()    ------------------------------->    POST /instances/<instance_id>/bind
+  6 unbind_instance()    ------------------------------->   POST /instances/<instance_id>/unbind
+  7 get_last_operation():     ------------------------------->   POST /instances/<instance_id>/???
